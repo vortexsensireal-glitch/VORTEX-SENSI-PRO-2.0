@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MASTER SENSI PRO</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#08090e;color:#f4f4f7;
+ font-family:Arial,Helvetica,sans-serif;
+}
+header{padding:22px 18px;border-bottom:1px solid #292a33}
+.logo{font-size:25px;font-weight:900}
+.logo span{color:#f23850}
+.sub{font-size:11px;letter-spacing:4px;color:#999;margin-top:8px}
+.status{color:#54d6a7;font-size:12px;margin-top:15px}
+nav{
+ display:flex;gap:5px;overflow-x:auto;padding:12px;
+ background:#11131b;border:1px solid #292b36;
+ border-radius:15px;margin:18px 12px;
+}
+nav button{
+ flex:1;min-width:65px;padding:13px 9px;
+ border:0;border-radius:9px;background:transparent;
+ color:#aaa;font-size:13px;cursor:pointer;
+}
+nav button.active{background:#401923;color:white}
+main{padding:8px 16px 40px;max-width:850px;margin:auto}
+.page{display:none}
+.page.active{display:block}
+.tag{color:#f0445b;font-size:12px;font-weight:bold;letter-spacing:3px}
+h1{font-size:29px;margin:12px 0}
+p{color:#a4a6b3;line-height:1.6}
+.hero{
+ background:linear-gradient(130deg,#32141e,#191720);
+ border:1px solid #693044;border-radius:20px;
+ padding:25px;margin:25px 0;
+}
+.hero h2{font-size:32px;line-height:1.2}
+button{cursor:pointer}
+.primary{
+ width:100%;padding:17px;border:0;border-radius:12px;
+ background:#f23850;color:white;font-weight:bold;
+ font-size:15px;margin-top:15px;
+}
+.secondary{
+ width:100%;padding:14px;border:1px solid #393b47;
+ border-radius:11px;background:#171923;color:white;
+ margin-top:10px;font-weight:bold;
+}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.card,.panel{
+ background:#12141d;border:1px solid #292c38;
+ border-radius:15px;padding:16px;margin:12px 0;
+}
+.card small{color:#9295a3}
+.card strong{display:block;font-size:20px;margin-top:10px}
+label{display:block;font-size:13px;color:#c7c8d0;margin:17px 0 8px}
+input,select,textarea{
+ width:100%;padding:14px;background:#0c0e15;
+ border:1px solid #343744;border-radius:10px;
+ color:white;font-size:15px;outline:none;
+}
+input[type=range]{padding:0;accent-color:#f23850}
+.value{color:#ff5268;font-weight:bold;float:right}
+.result{
+ background:#10121a;border:1px solid #343744;
+ border-radius:12px;padding:13px;margin:9px 0;
+ display:flex;justify-content:space-between;gap:10px;
+}
+.result strong{color:#ff5369}
+.note{font-size:12px;color:#8e91a0}
+footer{text-align:center;color:#777;font-size:11px;padding:25px}
+@media(max-width:420px){
+ .cards{grid-template-columns:1fr 1fr}
+ .hero h2{font-size:28px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">MASTER <span>SENSI</span> PRO</div>
+ <div class="sub">PROFESSIONAL CONFIGURATION SYSTEM</div>
+ <div class="status">● SISTEMA ATIVO</div>
+</header>
+
+<nav>
+ <button class="active" id="tab-inicio" onclick="abrirTela('inicio')">Início</button>
+ <button id="tab-celular" onclick="abrirTela('celular')">Celular</button>
+ <button id="tab-sensi" onclick="abrirTela('sensi')">Sensi</button>
+ <button id="tab-dpi" onclick="abrirTela('dpi')">DPI</button>
+ <button id="tab-tiro" onclick="abrirTela('tiro')">Tiro</button>
+ <button id="tab-perfil" onclick="abrirTela('perfil')">Perfil</button>
+</nav>
+
+<main>
+
+<!-- INÍCIO -->
+<section class="page active" id="inicio">
+ <div class="tag">DASHBOARD / 01</div>
+ <h1>Painel principal</h1>
+ <p>Bem-vindo ao seu centro de configurações.</p>
+
+ <div class="hero">
+  <div class="tag">MASTER SENSI PRO</div>
+  <h2>Seu perfil.<br>Suas configurações.</h2>
+  <p>Configure seu dispositivo, personalize suas preferências e gere seu relatório.</p>
+  <button class="primary" onclick="abrirTela('celular')">
+   CONFIGURAR AGORA →
+  </button>
+ </div>
+
+ <div class="cards">
+  <div class="card"><small>VERSÃO</small><strong>2.0 PRO</strong></div>
+  <div class="card"><small>PERFIL</small><strong id="statusPerfil">VAZIO</strong></div>
+  <div class="card"><small>STATUS</small><strong style="color:#54d6a7">ONLINE</strong></div>
+ </div>
+
+ <div class="tag">FERRAMENTAS</div>
+ <div class="panel">
+  <h3>Configuração do dispositivo</h3>
+  <p>Escolha sua marca e modelo de celular.</p>
+  <button class="secondary" onclick="abrirTela('celular')">ABRIR CELULAR →</button>
+ </div>
+ <div class="panel">
+  <h3>Personalização de sensibilidade</h3>
+  <p>Escolha seu estilo e gere suas sugestões.</p>
+  <button class="secondary" onclick="abrirTela('sensi')">ABRIR SENSI →</button>
+ </div>
+</section>
+
+<!-- CELULAR -->
+<section class="page" id="celular">
+ <div class="tag">DISPOSITIVO / 02</div>
+ <h1>Seu celular</h1>
+ <p>Selecione as informações do seu aparelho.</p>
+
+ <div class="panel">
+  <label>Marca do celular</label>
+  <select id="marca" onchange="atualizarModelos()">
+   <option value="">Selecione a marca</option>
+   <option>Samsung</option>
+   <option>Motorola</option>
+   <option>Xiaomi</option>
+   <option>Redmi</option>
+   <option>POCO</option>
+   <option>Realme</option>
+   <option>Apple</option>
+   <option>Infinix</option>
+   <option>Tecno</option>
+   <option>Outro</option>
+  </select>
+
+  <label>Modelo do aparelho</label>
+  <input id="modelo" list="listaModelos" placeholder="Digite ou escolha seu modelo">
+  <datalist id="listaModelos"></datalist>
+
+  <label>Memória RAM</label>
+  <select id="ram">
+   <option>2 GB</option><option>3 GB</option>
+   <option selected>4 GB</option><option>6 GB</option>
+   <option>8 GB</option><option>12 GB</option>
+   <option>16 GB</option>
+  </select>
+
+  <label>Armazenamento</label>
+  <select id="armazenamento">
+   <option>32 GB</option><option>64 GB</option>
+   <option selected>128 GB</option><option>256 GB</option>
+   <option>512 GB</option><option>1 TB</option>
+  </select>
+
+  <button class="primary" onclick="salvarCelular()">SALVAR DISPOSITIVO</button>
+  <button class="secondary" onclick="abrirTela('sensi')">CONTINUAR →</button>
+ </div>
+ <button class="secondary" onclick="abrirTela('inicio')">← VOLTAR AO INÍCIO</button>
+</section>
+
+<!-- SENSI -->
+<section class="page" id="sensi">
+ <div class="tag">SENSIBILIDADE / 03</div>
+ <h1>Configuração de sensi</h1>
+ <p>Escolha uma faixa de valores para montar suas sugestões.</p>
+
+ <div class="panel">
+  <label>Estilo de sensibilidade</label>
+  <select id="estilo">
+   <option value="alta">ALTA</option>
+   <option value="media">MÉDIA</option>
+   <option value="baixa">BAIXA</option>
+  </select>
+
+  <button class="primary" onclick="gerarSensi()">GERAR CONFIGURAÇÃO</button>
+  <div id="resultado" style="margin-top:20px">
+   <p class="note">Sua configuração aparecerá aqui.</p>
+  </div>
+  <button class="secondary" onclick="copiarResultado()">COPIAR CONFIGURAÇÃO</button>
+ </div>
+ <button class="secondary" onclick="abrirTela('celular')">← VOLTAR</button>
+</section>
+
+<!-- DPI -->
+<section class="page" id="dpi">
+ <div class="tag">CALIBRAÇÃO / 04</div>
+ <h1>Ajuste de DPI</h1>
+ <p>Escolha um valor de referência para seu aparelho Android.</p>
+
+ <div class="panel">
+  <label>DPI desejado <span class="value" id="dpiValor">548</span></label>
+  <input type="range" id="dpi" min="100" max="1000" value="548"
+   oninput="document.getElementById('dpiValor').textContent=this.value">
+
+  <div class="cards">
+   <button class="secondary" onclick="definirDpi(540)">540</button>
+   <button class="secondary" onclick="definirDpi(548)">548</button>
+   <button class="secondary" onclick="definirDpi(555)">555</button>
+  </div>
+
+  <button class="primary" onclick="salvarDpi()">SALVAR VALOR</button>
+  <p class="note">Este painel apenas registra o valor escolhido. Uma página HTML não consegue alterar o DPI real do sistema do celular.</p>
+ </div>
+ <button class="secondary" onclick="abrirTela('inicio')">← VOLTAR</button>
+</section>
+
+<!-- TIRO -->
+<section class="page" id="tiro">
+ <div class="tag">PERSONALIZAÇÃO / 05</div>
+ <h1>Botão de tiro</h1>
+ <p>Escolha o tamanho de referência para sua configuração.</p>
+
+ <div class="panel">
+  <label>Tamanho do botão <span class="value" id="tiroValor">50%</span></label>
+  <input type="range" id="tiroTamanho" min="30" max="100" value="50"
+   oninput="atualizarTiro()">
+
+  <div style="height:160px;display:grid;place-items:center;background:#0a0c12;border-radius:12px;margin-top:20px">
+   <div id="amostraTiro" style="width:50px;height:50px;border-radius:50%;background:#f23850;display:grid;place-items:center;font-weight:bold">+</div>
+  </div>
+  <button class="primary" onclick="salvarTiro()">SALVAR TAMANHO</button>
+  <p class="note">A prévia é ilustrativa e não altera o botão dentro do jogo.</p>
+ </div>
+ <button class="secondary" onclick="abrirTela('inicio')">← VOLTAR</button>
+</section>
+
+<!-- PERFIL -->
+<section class="page" id="perfil">
+ <div class="tag">PERFIL / 06</div>
+ <h1>Seu perfil</h1>
+ <div class="panel">
+  <div class="result"><span>Dispositivo</span><strong id="perfilCelular">Não informado</strong></div>
+  <div class="result"><span>RAM</span><strong id="perfilRam">--</strong></div>
+  <div class="result"><span>DPI escolhido</span><strong id="perfilDpi">548</strong></div>
+  <div class="result"><span>Botão de tiro</span><strong id="perfilTiro">50%</strong></div>
+  <button class="primary" onclick="salvarPerfil()">SALVAR PERFIL</button>
+  <button class="secondary" onclick="abrirTela('inicio')">VOLTAR AO INÍCIO</button>
+ </div>
+</section>
+
+</main>
+
+<footer>MASTER SENSI PRO • CONFIGURAÇÃO PERSONALIZADA</footer>
+
+<script>
+/* NAVEGAÇÃO */
+function abrirTela(nome){
+ const paginas=document.querySelectorAll('.page');
+ paginas.forEach(function(p){p.classList.remove('active')});
+
+ const destino=document.getElementById(nome);
+ if(destino){destino.classList.add('active')}
+
+ document.querySelectorAll('nav button').forEach(function(b){
+  b.classList.remove('active');
+ });
+
+ const aba=document.getElementById('tab-'+nome);
+ if(aba){aba.classList.add('active')}
+
+ window.scrollTo(0,0);
+}
+
+/* MODELOS */
+const modelos={
+ Samsung:['Galaxy A05','Galaxy A06','Galaxy A12','Galaxy A14','Galaxy A15','Galaxy A16','Galaxy A24','Galaxy A25','Galaxy A34','Galaxy A35','Galaxy A54','Galaxy S21','Galaxy S22','Galaxy S23','Galaxy S24'],
+ Motorola:['Moto E13','Moto E22','Moto G04','Moto G14','Moto G24','Moto G34','Moto G54','Moto G84','Edge 30','Edge 40','Edge 50'],
+ Xiaomi:['Redmi 9','Redmi 10','Redmi 12','Redmi 13','Xiaomi 12','Xiaomi 13','Xiaomi 14'],
+ Redmi:['Redmi 9','Redmi 10','Redmi 12','Redmi 13','Redmi Note 11','Redmi Note 12','Redmi Note 13','Redmi Note 14'],
+ POCO:['POCO C40','POCO C65','POCO M5','POCO M6','POCO X5','POCO X6','POCO F5','POCO F6'],
+ Realme:['Realme C11','Realme C21','Realme C25','Realme C35','Realme C53','Realme C55','Realme C61','Realme Note 50','Realme Note 60','Realme Note 60X','Realme 11','Realme 12'],
+ Apple:['iPhone 11','iPhone 12','iPhone 13','iPhone 14','iPhone 15','iPhone 16','iPhone 17'],
+ Infinix:['Hot 10','Hot 20','Hot 30','Hot 40','Hot 50','Note 30','Note 40'],
+ Tecno:['Spark 10','Spark 20','Spark 30','Pova 5','Pova 6','Camon 20','Camon 30']
+};
+
+function atualizarModelos(){
+ const marca=document.getElementById('marca').value;
+ const lista=document.getElementById('listaModelos');
+ lista.innerHTML='';
+ (modelos[marca]||[]).forEach(function(nome){
+  const op=document.createElement('option');
+  op.value=nome;
+  lista.appendChild(op);
+ });
+}
+
+/* SALVAR CELULAR */
+function salvarCelular(){
+ const marca=document.getElementById('marca').value;
+ const modelo=document.getElementById('modelo').value;
+ if(!marca || !modelo){
+  alert('Selecione a marca e informe o modelo do celular.');
+  return;
+ }
+ document.getElementById('perfilCelular').textContent=marca+' '+modelo;
+ document.getElementById('perfilRam').textContent=document.getElementById('ram').value;
+ alert('Dispositivo salvo com sucesso!');
+}
+
+/* GERAR SENSIBILIDADE */
+let textoResultado='';
+
+function numero(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function gerarSensi(){
+ const estilo=document.getElementById('estilo').value;
+ let faixa;
+
+ if(estilo==='alta'){
+  faixa={
+   geral:[180,200],red:[150,180],
+   x2:[140,170],x4:[130,160],
+   awm:[80,100],olho:[80,100]
+  };
+ }else if(estilo==='media'){
+  faixa={
+   geral:[100,178],red:[100,150],
+   x2:[100,140],x4:[100,130],
+   awm:[40,80],olho:[40,80]
+  };
+ }else{
+  faixa={
+   geral:[0,150],red:[0,120],
+   x2:[0,110],x4:[0,100],
+   awm:[0,60],olho:[0,60]
+  };
+ }
+
+ const dados=[
+  ['Geral',faixa.geral],
+  ['Red Dot',faixa.red],
+  ['Mira 2x',faixa.x2],
+  ['Mira 4x',faixa.x4],
+  ['AWM',faixa.awm],
+  ['Olhadinha',faixa.olho]
+ ];
+
+ textoResultado='MASTER SENSI PRO\nEstilo: '+estilo.toUpperCase()+'\n';
+
+ let html='';
+ dados.forEach(function(item){
+  const valor=numero(item[1][0],item[1][1]);
+  textoResultado+=item[0]+': '+valor+'\n';
+  html+='<div class="result"><span>'+item[0]+'</span><strong>'+valor+'</strong></div>';
+ });
+
+ document.getElementById('resultado').innerHTML=
+  '<div class="tag">CONFIGURAÇÃO GERADA</div>'+html+
+  '<p class="note">Valores sugeridos para você testar e ajustar no jogo.</p>';
+}
+
+/* COPIAR */
+function copiarResultado(){
+ if(!textoResultado){
+  alert('Gere uma configuração primeiro.');
+  return;
+ }
+ if(navigator.clipboard && navigator.clipboard.writeText){
+  navigator.clipboard.writeText(textoResultado)
+   .then(function(){alert('Configuração copiada!')})
+   .catch(function(){copiarAlternativo()});
+ }else{
+  copiarAlternativo();
+ }
+}
+
+function copiarAlternativo(){
+ const campo=document.createElement('textarea');
+ campo.value=textoResultado;
+ document.body.appendChild(campo);
+ campo.select();
+ try{
+  document.execCommand('copy');
+  alert('Configuração copiada!');
+ }catch(e){
+  alert('Não foi possível copiar automaticamente. Selecione o texto manualmente.');
+ }
+ campo.remove();
+}
+
+/* DPI */
+function definirDpi(valor){
+ document.getElementById('dpi').value=valor;
+ document.getElementById('dpiValor').textContent=valor;
+}
+function salvarDpi(){
+ const valor=document.getElementById('dpi').value;
+ document.getElementById('perfilDpi').textContent=valor;
+ alert('Valor de DPI registrado no perfil!');
+}
+
+/* BOTÃO DE TIRO */
+function atualizarTiro(){
+ const valor=document.getElementById('tiroTamanho').value;
+ document.getElementById('tiroValor').textContent=valor+'%';
+ const tamanho=valor;
+ document.getElementById('amostraTiro').style.width=tamanho+'px';
+ document.getElementById('amostraTiro').style.height=tamanho+'px';
+}
+function salvarTiro(){
+ const valor=document.getElementById('tiroTamanho').value;
+ document.getElementById('perfilTiro').textContent=valor+'%';
+ alert('Tamanho registrado no perfil!');
+}
+
+/* PERFIL */
+function salvarPerfil(){
+ const dados={
+  celular:document.getElementById('perfilCelular').textContent,
+  ram:document.getElementById('perfilRam').textContent,
+  dpi:document.getElementById('perfilDpi').textContent,
+  tiro:document.getElementById('perfilTiro').textContent
+ };
+ try{
+  localStorage.setItem('masterSensiPro',JSON.stringify(dados));
+  document.getElementById('statusPerfil').textContent='SALVO';
+  alert('Perfil salvo neste navegador!');
+ }catch(e){
+  alert('Não foi possível salvar neste navegador.');
+ }
+}
+
+/* CARREGAR PERFIL SALVO */
+try{
+ const salvo=localStorage.getItem('masterSensiPro');
+ if(salvo){
+  const dados=JSON.parse(salvo);
+  document.getElementById('perfilCelular').textContent=dados.celular||'Não informado';
+  document.getElementById('perfilRam').textContent=dados.ram||'--';
+  document.getElementById('perfilDpi').textContent=dados.dpi||'548';
+  document.getElementById('perfilTiro').textContent=dados.tiro||'50%';
+  document.getElementById('statusPerfil').textContent='SALVO';
+ }
+}catch(e){}
+</script>
+
+</body>
+                           </html>
+                           
